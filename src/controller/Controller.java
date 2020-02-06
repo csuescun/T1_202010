@@ -43,7 +43,7 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 			case 1:
-				modelo.cargarComparendos(RUTA_DATOS_SMALL); 
+				modelo.cargarComparendos(RUTA_DATOS_COMPLETOS); 
 				view.printMessage("Datos de comparendos cargados.");
 				view.printMessage("Numero total de comparendos " + modelo.darTamano() + "\n---------");						
 				break;
