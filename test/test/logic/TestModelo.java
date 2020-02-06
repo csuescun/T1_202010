@@ -6,49 +6,42 @@ import model.logic.Modelo;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.Controller;
+
 public class TestModelo {
-	
+
 	private Modelo modelo;
-	private static int CAPACIDAD=100;
-	
+
 	@Before
-	public void setUp1() {
-		modelo= new Modelo(CAPACIDAD);
+	public void setUp1() 
+	{
+		modelo= new Modelo();
+		modelo.cargarComparendos(Controller.RUTA_DATOS_SMALL);
 	}
 
-	public void setUp2() {
-		for(int i =0; i< CAPACIDAD;i++){
-			modelo.agregar(""+i);
-		}
-	}
 
 	@Test
 	public void testModelo() {
 		assertTrue(modelo!=null);
-		assertEquals(0, modelo.darTamano());  // Modelo con 0 elementos presentes.
+		assertEquals(20, modelo.darTamano()); 
 	}
 
 	@Test
-	public void testDarTamano() {
-		// TODO
+	public void testDarTamano() 
+	{
+		assertEquals("No corresponde al tamano esperado",20, modelo.darTamano());
 	}
 
-	@Test
-	public void testAgregar() {
-		// TODO Completar la prueba
-	}
+
 
 	@Test
-	public void testBuscar() {
-		setUp2();
-		// TODO Completar la prueba
+	public void testBuscar() 
+	{
+		assertTrue("No encontró el elemento pero este sí existe", modelo.buscar(29042)!=null);
+		assertTrue("No encontró el elemento pero este sí existe", modelo.buscar(395366)!=null);
+		assertTrue("No encontró el elemento pero este sí existe", modelo.buscar(209146)!=null);
+		assertTrue("No encontró el elemento pero este sí existe", modelo.buscar(1)==null);
 	}
 
-	@Test
-	public void testEliminar() {
-		setUp2();
-		// TODO Completar la prueba
-		
-	}
 
 }

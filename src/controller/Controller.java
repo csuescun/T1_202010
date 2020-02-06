@@ -2,27 +2,34 @@ package controller;
 
 import java.util.Scanner;
 
+import model.logic.Comparendo;
 import model.logic.Modelo;
 import view.View;
 
 public class Controller {
 
+	public final static String RUTA_DATOS_COMPLETOS = "./data/comparendos_dei_2018.geojson";
+	public final static String RUTA_DATOS_SMALL = "./data/comparendos_dei_2018_small.geojson";
+
+
 	/* Instancia del Modelo*/
 	private Modelo modelo;
-	
+
 	/* Instancia de la Vista*/
 	private View view;
-	
+
 	/**
 	 * Crear la vista y el modelo del proyecto
 	 * @param capacidad tamaNo inicial del arreglo
 	 */
+
+
 	public Controller ()
 	{
 		view = new View();
 		modelo = new Modelo();
 	}
-		
+
 	public void run() 
 	{
 		Scanner lector = new Scanner(System.in);
@@ -35,69 +42,51 @@ public class Controller {
 
 			int option = lector.nextInt();
 			switch(option){
-				case 1:
-					view.printMessage("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
-				    int capacidad = lector.nextInt();
-				    modelo = new Modelo(capacidad); 
-				    view.printMessage("Arreglo Dinamico creado");
-				    view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
+			case 1:
+				modelo.cargarComparendos(RUTA_DATOS_SMALL); 
+				view.printMessage("Datos de comparendos cargados.");
+				view.printMessage("Numero total de comparendos " + modelo.darTamano() + "\n---------");						
+				break;
 
-				case 2:
-					view.printMessage("--------- \nDar cadena (simple) a ingresar: ");
-					dato = lector.next();
-					modelo.agregar(dato);
-					view.printMessage("Dato agregado");
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
+			case 2:
+				view.printMessage("--------- \nDar ID del comparendo a buscar: ");
+				dato = lector.next();
 
-				case 3:
-					view.printMessage("--------- \nDar cadena (simple) a buscar: ");
-					dato = lector.next();
-					respuesta = modelo.buscar(dato);
-					if ( respuesta != null)
-					{
-						view.printMessage("Dato encontrado: "+ respuesta);
-					}
-					else
-					{
-						view.printMessage("Dato NO encontrado");
-					}
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
+				int id = Integer.parseInt(dato);
+				Comparendo buscado = modelo.buscar(id);
 
-				case 4:
-					view.printMessage("--------- \nDar cadena (simple) a eliminar: ");
-					dato = lector.next();
-					respuesta = modelo.eliminar(dato);
-					if ( respuesta != null)
-					{
-						view.printMessage("Dato eliminado "+ respuesta);
-					}
-					else
-					{
-						view.printMessage("Dato NO eliminado");							
-					}
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;
+				if(buscado !=  null)
+				{
+					view.printMessage("Comparendo encontrado");
+					view.printMessage("ID: " + buscado.darObjectID());
+					view.printMessage("Fecha: " + buscado.darFecha());
+					view.printMessage("Medio dete: " + buscado.darMedioDete());
+					view.printMessage("Tipo del vehículo: " + buscado.darClaseVehiculo());
+					view.printMessage("Tipo de servicio: " + buscado.darTipoServicio());
+					view.printMessage("Infracción: " + buscado.darInfraccion());
+					view.printMessage("Descripción de la infracción: " + buscado.darDesInfraccion() );
+					view.printMessage("Localidad: " + buscado.darLocalidad());
+				}
 
-				case 5: 
-					view.printMessage("--------- \nContenido del Arreglo: ");
-					view.printModelo(modelo);
-					view.printMessage("Numero actual de elementos " + modelo.darTamano() + "\n---------");						
-					break;	
-					
-				case 6: 
-					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
-					lector.close();
-					fin = true;
-					break;	
+				else
+				{
+					view.printMessage("Comparendo NO encontrado");
+				}
 
-				default: 
-					view.printMessage("--------- \n Opcion Invalida !! \n---------");
-					break;
+				break;
+
+			case 3:
+
+				view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+				lector.close();
+				fin = true;
+				break;	
+
+			default: 
+				view.printMessage("--------- \n Opcion Invalida !! \n---------");
+				break;
 			}
 		}
-		
+
 	}	
 }
